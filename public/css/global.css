@@ -1,0 +1,156 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap'); */
+
+:root {
+    --primary: #4070f4;
+    --light-primary: #eff2ff;
+    --secondary: #90adff;
+    --white: white;
+    --dark: black;
+    --danger: red;
+
+    --smoot-100: 100ms ease;
+    --smoot-200: 200ms ease;
+    --smoot-300: 300ms ease;
+    --shadow-primary: 0 4px 6px var(--light-primary);
+    --border-radius: 4px;
+
+    --content-admin: #f8f9ff;
+}
+
+body {
+    min-height: 100.1vh;
+}
+
+main {
+    min-height: 60vh;
+}
+
+.content {
+    padding: 4rem 0;
+}
+
+* {
+    box-sizing: border-box;
+    /* font-family: "Itim", cursive; */
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark);
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
+table th {
+    white-space: nowrap;
+}
+
+table * {
+    vertical-align: middle;
+}
+
+.w-default {
+    width: 70%;
+    margin-inline: auto;
+}
+
+.px-default {
+    padding-inline: 5rem;
+}
+
+.space-nowrap {
+    white-space: nowrap;
+}
+
+.span-delete {
+    visibility: hidden;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.events-none {
+    pointer-events: none !important;
+}
+
+.no-drop {
+    cursor: no-drop !important;
+}
+
+.w-fit {
+    width: fit-content;
+}
+
+button {
+    outline: none;
+}
+
+.button-primary {
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--primary);
+    color: var(--white);
+    transition: var(--smoot-300);
+}
+
+.button-primary:hover {
+    background-color: var(--light-primary);
+    color: var(--primary);
+}
+
+.shadow-primary {
+    box-shadow: var(--shadow-primary);
+}
+
+.admin-content {
+    background-color: var(--light-primary);
+    min-height: 100vh;
+}
+
+.color-primary {
+    color: var(--primary);
+}
+
+.color-secondary {
+    color: var(--secondary);
+}
+
+@media (min-width: 768px) {
+    .table-overflow-x::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .w-default {
+        width: 80%;
+        margin-inline: auto;
+    }
+
+    .content {
+        padding: 2rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .w-default {
+        width: 90%;
+        margin-inline: auto;
+    }
+}
+
+
+
+
