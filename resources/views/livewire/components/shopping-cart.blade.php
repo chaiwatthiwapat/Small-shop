@@ -1,7 +1,7 @@
 <section id="shopping-cart">
     <div class="content row w-default align-items-start">
-        <div class="px-1 col-lg-8">
-            <div class="cart-items col-12 py-3 pb-5 mb-4">
+        <div class="px-1 col-lg-7 col-xl-8">
+            <div class="cart-items rounded col-12 py-3 pb-5 mb-4">
                 <div class="d-flex justify-content-between">
                     <h5>ตระกร้าสินค้า</h5>
                     <h5>{{ $items->count() }} รายการ</h5>
@@ -56,16 +56,16 @@
             </div>
         </div>
 
-        <div class="px-1 col-lg-4">
-            <div class="col-12 summary py-3 pb-5">
-                <div>
+        <div class="px-1 col-lg-5 col-xl-4">
+            <div class="col-12 summary rounded py-3 pb-5">
+                <form wire:submit="confirmOrder">
                     <div class="d-flex justify-content-between">
                         <h5>สรุป</h5>
                     </div>
 
                     <hr class="text-primary mt-3 mb-4">
 
-                    <div class="d-flex justify-content-between py-2 mb-3">
+                    <div class="d-flex justify-content-between py-2">
                         <h6>รวม</h6>
                         <h6>฿{{ number_format($total, 0) }}</h6>
                     </div>
@@ -74,21 +74,35 @@
                         <label class="mb-2">เลือกบริการจัดส่ง</label>
                         <select wire:model.change="deliveryId" class="form-control">
                             <option value="" hidden selected>-- เลือก --</option>
+                            
                             @forelse ($deliveryService as $value)
                                 <option value="{{ $value->id }}">{{ $value->name }} - ฿{{ number_format($value->cost, 0) }}</option>
                             @empty @endforelse
                         </select>
+
+                        @error('deliveryId')
+                            <span class="text-danger mt-1">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="mb-4">
                         <label>ที่อยู่ผู้รับ</label>
                         <textarea wire:model="address" rows="3" class="form-control"></textarea>
+
+                        @error('deliveryId')
+                            <span class="text-danger mt-1">{{ $message }}</span>
+                        @enderror
                     </div>
 
-                    <hr class="text-primary mt-3 mb-4">
+                    <div class="mb-4">
+                        <label>ช่องทางชำระเงิน</label>
+                        <input wire:model="paymentMethod" disabled type="text" class="form-control">
+                    </div>
+
+                    <hr class="text-primary my-3">
 
                     <div>
-                        <div class="d-flex justify-content-between py-2 mb-3">
+                        <div class="d-flex justify-content-between">
                             <h6>รวมทั้งสิ้น</h6>
                             <h6>฿{{ number_format($grandTotal, 0) }}</h6>
                         </div>
@@ -96,15 +110,15 @@
 
                     <div>
                         @if($items->count() < 1)
-                            <button class="button-primary px-3 py-2 w-100 no-drop">ไม่มีสินค้า</button>
+                            <button type="button" class="button-primary px-3 py-2 w-100 no-drop">ไม่มีสินค้า</button>
                         @elseif(Auth::check() && Auth::user()->usertype == 'admin')
-                            <button class="button-primary px-3 py-2 w-100 no-drop">กรุณาใช้บัญชี "สมาชิก"</button>
+                            <button type="button" class="button-primary px-3 py-2 w-100 no-drop">กรุณาใช้บัญชี "สมาชิก"</button>
                         @elseif(Auth::check() && Auth::user()->usertype == 'member')
-                            <button class="button-primary px-3 py-2 w-100">ยืนยันคำสั่งซื้อ</button>
+                            <button type="submit" class="button-primary px-3 py-2 w-100">ยืนยันคำสั่งซื้อ</button>
                         @else
                             <div>
                                 <a wire:navigate href="{{ route('login') }}">
-                                    <button class="button-primary px-3 py-2 w-100">เข้าสู่ระบบก่อนซื้อ</button>
+                                    <button type="button" class="button-primary px-3 py-2 w-100">เข้าสู่ระบบก่อนซื้อ</button>
                                 </a>
                                 <div class="text-danger">*กรุณาเข้าสู่ระบบก่อน</div>
                             </div>

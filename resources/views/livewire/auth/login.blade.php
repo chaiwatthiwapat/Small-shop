@@ -1,6 +1,6 @@
 <section id="login" class="position-relative">
     <div class="content w-default d-flex justify-content-center align-items-center">
-        <form wire:submit="login">
+        <form wire:submit="login" class="rounded">
             <h4 class="text-center">เข้าสู่ระบบ</h4>
 
             <div class="mb-3">

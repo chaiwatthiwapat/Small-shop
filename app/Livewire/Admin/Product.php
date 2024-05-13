@@ -202,12 +202,11 @@ class Product extends Component
     public function deleteProduct($id) {
         try {
             $product = ProductModel::find($id);
-            if(!$product) {
-                return $this->redirect(route('admin.product.index'), navigate:true);
+            
+            if($product) {
+                $product->delete();
+                $this->dispatch('success');
             }
-
-            $product->delete();
-            $this->dispatch('success');
         }
         catch(\Exception $e) {
             dd($e->getMessage());

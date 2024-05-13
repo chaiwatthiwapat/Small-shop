@@ -1,9 +1,9 @@
 <section id="forget-password" class="position-relative">
     <div class="content w-default d-flex justify-content-center align-items-center">
         @if($status == 'ok')
-            <form wire:submit="changePassword">
+            <form wire:submit="changePassword" class="rounded">
         @else
-            <form wire:submit="checkData">
+            <form wire:submit="checkData" class="rounded">
         @endif
             <h4 class="text-center">ลืมรหัสผ่าน</h4>
 
@@ -28,7 +28,7 @@
             @if($status == 'ok')
                 <div class="mb-3">
                     <label>รหัสผ่านใหม่</label>
-                    <input wire:model="password" type="password" class="form-control">
+                    <input wire:model="password" type="password" class="form-control input-password">
 
                     @error('password')
                         <span class="text-danger mt-1">{{ $message }}</span>
@@ -37,11 +37,16 @@
 
                 <div class="mb-3">
                     <label>ยืนยันรหัสผ่านใหม่</label>
-                    <input wire:model="password_confirmation" type="password" class="form-control">
+                    <input wire:model="password_confirmation" type="password" class="form-control input-password">
 
                     @error('password')
                         <span class="text-danger mt-1">{{ $message }}</span>
                     @enderror
+                </div>
+
+                <div class="d-flex align-items-center gap-1 mb-3">
+                    <input onchange="viewPassword(event)" type="checkbox" id="view-password" class="mt-1 pointer">
+                    <label for="view-password" class="pointer">ดูรหัสผ่าน</label>
                 </div>
             @endif
 

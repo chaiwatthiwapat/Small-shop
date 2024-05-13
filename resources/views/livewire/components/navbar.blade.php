@@ -1,16 +1,16 @@
 <header id="header">
-    <nav id="nav" class="position-relative container w-default p-lg-3 p-0">
+    <nav id="nav" class="position-relative w-default p-0">
         <a wire:navigate href="{{ route('index') }}" class="d-block">
             <img width="140px" src="{{ url('storage', 'logo/shop-no-bg.png') }}" alt="">
         </a>
 
         <ul class="navbar-menu">
             <li>
-                <a wire:navigate href="{{ route('index') }}">หน้าแรก</a>
+                <a wire:navigate href="{{ route('index') }}" class="{{ request()->is('/') ? 'text-primary' : '' }}">หน้าแรก</a>
             </li>
 
             <li>
-                <a wire:navigate href="{{ route('product.index') }}">สินค้า</a>
+                <a wire:navigate href="{{ route('product.index') }}" class="{{ request()->is('product*') ? 'text-primary' : '' }}">สินค้า</a>
             </li>
 
             <li>
@@ -22,7 +22,7 @@
                                 <circle cx="8" cy="8" r="8"/>
                             </svg>
                         @endif
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-bag-check" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-bag-check {{ request()->is('shopping-cart*') ? 'text-primary' : '' }}" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                         </svg>
@@ -30,13 +30,19 @@
                 </a>
             </li>
 
-            <li>
-                @if(Auth::check())
+            @if(Auth::check())
+                <li>
+                    <a wire:navigate href="{{ route('history') }}" class="{{ request()->is('history*') ? 'text-primary' : '' }}">ประวัติการซื้อ</a>
+                </li>
+
+                <li>
                     <a wire:navigate href="{{ route('logout') }}" class="text-danger">ออกจากระบบ</a>
-                @else
-                    <a wire:navigate href="{{ route('login') }}">เข้าสู่ระบบ/สมัครสมาชิก</a>
-                @endif
-            </li>
+                </li>
+            @else
+                <li>
+                    <a wire:navigate href="{{ route('login') }}" class="{{ request()->is('auth*') ? 'text-primary' : '' }}">เข้าสู่ระบบ/สมัครสมาชิก</a>
+                </li>
+            @endif
         </ul>
 
         <div class="icon-toggle-menu position-relative">
@@ -73,7 +79,7 @@
         window.onscroll = () => navbarSticky();
 
         function navbarSticky() {
-            const point = 200;
+            const point = 300;
             if (document.body.scrollTop > point || document.documentElement.scrollTop > point) {
                 $('#header').addClass('sticky-top shadow-sm');
             }

@@ -27,31 +27,27 @@ class ProductDetail extends Component
 
     public function addCart($productId) {
         try {
-            if(Auth::check()) {
-
+            $product = Product::find($productId);
+            if(!$product) {
+                return $this->redirect(route('product.index'), navigate:true);
             }
-            else {
-                $product = Product::find($productId);
-                if(!$product) {
-                    return $this->redirect(route('product.index'), navigate:true);
-                }
 
-                $checkOrderItem = OrderItem::where('order_id', NULL)
-                    ->where('usercode', session('usercode'))
-                    ->where('product_id', $productId)
-                    ->first();
+            $checkOrderItem = OrderItem::where('order_id', NULL)
+                ->where('user_id', NULL)
+                ->where('usercode', session('usercode'))
+                ->where('product_id', $productId)
+                ->first();
 
-                if(!$checkOrderItem) {
-                    OrderItem::create([
-                        'usercode' => session('usercode'),
-                        'product_id' => $productId,
-                        'total_amount' => $product->price,
-                    ]);
-                }
-
-                $this->buttonAddCart = 'เพิ่มลงตะกร้าแล้ว';
-                $this->dispatch('updateCountCart');
+            if(!$checkOrderItem) {
+                OrderItem::create([
+                    'usercode' => session('usercode'),
+                    'product_id' => $productId,
+                    'total_amount' => $product->price,
+                ]);
             }
+
+            $this->buttonAddCart = 'เพิ่มลงตะกร้าแล้ว';
+            $this->dispatch('updateCountCart');
         }
         catch(\Exception $e) {
             dd($e->getMessage());

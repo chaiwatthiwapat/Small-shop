@@ -18,8 +18,13 @@ Route::prefix('product')->group(function() {
     Route::get('/detail/{id}', fn ($id) => view('pages.product.detail', compact('id')))->name('product.detail');
 });
 
-Route::prefix('shpping-cart')->group(function() {
+Route::prefix('shopping-cart')->group(function() {
     Route::get('/', fn () => view('pages.shopping-cart.index'))->name('shopping-cart');
+});
+
+
+Route::prefix('history')->group(function() {
+    Route::get('/', fn () => view('pages.history.index'))->name('history');
 });
 
 

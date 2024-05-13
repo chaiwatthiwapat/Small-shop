@@ -1,6 +1,6 @@
 <section id="register" class="position-relative">
     <div class="content w-default d-flex justify-content-center align-items-center">
-        <form wire:submit="register">
+        <form wire:submit="register" class="rounded">
             <h4 class="text-center">สมัครสมาชิก</h4>
 
             <div class="mb-3">
