@@ -7,17 +7,22 @@ use Livewire\Component;
 
 class ProductList extends Component
 {
-    public $search;
+    public $search, $products;
+
+    public function setData() {
+        if($this->search != '') {
+            $this->products = Product::select('id', 'image', 'name', 'detail', 'price')
+                ->where('name', 'LIKE', "%$this->search%")->latest()->get();
+        }
+        else {
+            $this->products = Product::select('id', 'image', 'name', 'detail', 'price')->latest()->get();
+        }
+    }
 
     public function render()
     {
-        if($this->search != '') {
-            $products = Product::where('name', 'LIKE', "%$this->search%")->latest()->get();
-        }
-        else {
-            $products = Product::latest()->get();
-        }
+        $this->setData();
 
-        return view('livewire.components.product-list', ['products' => $products]);
+        return view('livewire.components.product-list', ['products' => $this->products]);
     }
 }

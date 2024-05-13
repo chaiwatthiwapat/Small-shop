@@ -9,21 +9,22 @@ use App\Models\First as FirstModel;
 class First extends Component
 {
     public $first;
-    protected $listeners = ['refresh'];
 
-    public function updateCart() {
-        $this->dispatch('update-count-cart');
+    public function mount() {
+        $this->first = $this->dataFirst();
     }
 
     #[On('refreshFirst')]
     public function refreshFirst() {
-        $this->first = FirstModel::first();
+        $this->first = $this->dataFirst();
+    }
+
+    public function dataFirst(){
+        return FirstModel::select('id', 'title', 'label', 'image')->first();
     }
 
     public function render()
     {
-        $this->first = FirstModel::first();
-
         return view('livewire.components.first', ['first' => $this->first]);
     }
 }

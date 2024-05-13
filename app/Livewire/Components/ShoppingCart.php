@@ -8,22 +8,24 @@ use App\Models\DeliveryService;
 
 class ShoppingCart extends Component
 {
-    public $total, $grandTotal, $deliveryId;
+    public $total, $grandTotal, $deliveryId, $address;
     public $items, $deliveryService;
 
     public function mount() {
-        $this->getData();
+        $this->setData();
     }
 
-    public function getData() {
-        $this->items = OrderItem::where('usercode', session('usercode'))->where('order_id', NULL)->get();
+    public function setData() {
+        $this->items = OrderItem::select('id', 'usercode', 'product_id', 'quantity', 'total_amount')
+            ->where('usercode', session('usercode'))->where('order_id', NULL)->get();
+
         $this->total = $this->items->pluck('total_amount')->sum();
         $this->grandTotal = $this->total;
-        $this->deliveryService = DeliveryService::all();
+        $this->deliveryService = DeliveryService::select('id', 'name', 'cost')->get();
     }
 
     public function DeliveryServiceChange() {
-        $delivery = DeliveryService::find($this->deliveryId);
+        $delivery = DeliveryService::select('cost')->find($this->deliveryId);
 
         if($delivery) {
             $this->grandTotal = $this->total + $delivery->cost;
@@ -31,40 +33,50 @@ class ShoppingCart extends Component
     }
 
     public function changeQty($id, $event) {
-        $order = OrderItem::find($id);
-        $totalAmount = $order->product->price;
+        try {
+            $order = OrderItem::find($id);
+            $totalAmount = $order->product->price;
 
-        if($order) {
-            if($event == '-') {
-                if($order->quantity > 1) {
-                    $qty = $order->quantity - 1;
+            if($order) {
+                if($event == '-') {
+                    if($order->quantity > 1) {
+                        $qty = $order->quantity - 1;
+                        $order->update([
+                            'quantity' => $qty,
+                            'total_amount' => $totalAmount * $qty,
+                        ]);
+                    }
+                }
+                else {
+                    $qty = $order->quantity + 1;
                     $order->update([
                         'quantity' => $qty,
                         'total_amount' => $totalAmount * $qty,
                     ]);
                 }
             }
-            else {
-                $qty = $order->quantity + 1;
-                $order->update([
-                    'quantity' => $qty,
-                    'total_amount' => $totalAmount * $qty,
-                ]);
-            }
-        }
 
-        $this->getData();
+            $this->setData();
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function deleteFromCart($id) {
-        $model = OrderItem::find($id);
+        try {
+            $model = OrderItem::find($id);
 
-        if($model) {
-            $model->delete();
+            if($model) {
+                $model->delete();
+
+                $this->setData();
+                $this->dispatch('updateCountCart');
+            }
         }
-
-        $this->getData();
-        $this->dispatch('updateCountCart');
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function render()

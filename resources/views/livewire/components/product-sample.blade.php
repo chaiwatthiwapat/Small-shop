@@ -2,7 +2,6 @@
     <div class="content row px-0 w-default">
         <div class="mb-3">
             <h5 class="text-center">ตัวอย่างสินค้าของเรา</h5>
-            <p class="text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis, sunt.</p>
         </div>
 
         <div class="row m-0">

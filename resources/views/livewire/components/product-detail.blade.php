@@ -11,13 +11,13 @@
                         </div>
                     </div>
 
-                    @foreach ($product['subimage'] as $value)
+                    @forelse ($product['subimage'] as $value)
                         <div class="px-1 col-lg-2 col-md-2 col-2 d-flex">
                             <div onclick="selectedImage('{{ url('storage/product-sub', $value) }}')" class="p-1 d-flex border rounded pointer">
                                 <img class="col-12" src="{{ url('storage/product-sub', $value) }}" alt="">
                             </div>
                         </div>
-                    @endforeach
+                    @empty @endforelse
                 </div>
             </div>
         </div>

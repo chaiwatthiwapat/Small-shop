@@ -7,7 +7,7 @@
                     <th></th>
                 </tr>
             </thead>
-
+ 
             <tbody>
                 @forelse ($categories as $value)
                     <tr>

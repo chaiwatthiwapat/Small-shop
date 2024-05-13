@@ -17,71 +17,98 @@ class Category extends Component
     public function formClear(){
         $this->id = '';
         $this->name = '';
+        $this->resetErrorBag();
+    }
+
+    public function modalCreateClose() {
+        $this->resetErrorBag();
     }
 
     public function createCategory() {
         $this->validate([
-            'name' => 'required|max:200'
+            'name' => 'required|max:200|unique:categories,name'
         ], [
-            'name' => 'กรอกชื่อหมวดหมู่'
+            'name' => 'กรอกชื่อหมวดหมู่',
+            'name.unique' => 'มีอยู่แล้ว',
         ]);
 
-        CategoryModel::create([
-            'name' => $this->name
-        ]);
+        try {
+            CategoryModel::create([
+                'name' => $this->name
+            ]);
 
-        $this->dispatch('success');
-        $this->dispatch('modal-create-hide');
-        $this->resetPage();
-        $this->formClear();
+            $this->dispatch('success');
+            $this->dispatch('modal-create-hide');
+            $this->resetPage();
+            $this->formClear();
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function editCategory($id) {
-        $category = CategoryModel::find($id);
-        if(!$category) {
-            return $this->redirect(route('admin.category.index'), navigate:true);
-        }
+        try {
+            $category = CategoryModel::find($id);
+            if(!$category) {
+                return $this->redirect(route('admin.category.index'), navigate:true);
+            }
 
-        $this->id = $id;
-        $this->name = $category->name;
+            $this->id = $id;
+            $this->name = $category->name;
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function updateCategory() {
         $this->validate([
-            'name' => 'required|max:200'
+            'name' => "required|max:200|unique:categories,name,$this->id"
         ], [
-            'name' => 'กรอกชื่อหมวดหมู่'
+            'name' => 'กรอกชื่อหมวดหมู่',
+            'name.unique' => 'มีอยู่แล้ว',
         ]);
 
-        CategoryModel::where('id', $this->id)->update([
-            'name' => $this->name
-        ]);
+        try {
+            CategoryModel::where('id', $this->id)->update([
+                'name' => $this->name
+            ]);
 
-        $this->dispatch('success');
-        $this->dispatch('modal-edit-hide');
-        $this->resetPage();
-        $this->formClear();
+            $this->dispatch('success');
+            $this->dispatch('modal-edit-hide');
+            $this->resetPage();
+            $this->formClear();
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     #[On('deleteCategory')]
     public function deleteCategory($id) {
-        $category = CategoryModel::find($id);
-        if(!$category) {
-            return $this->redirect(route('admin.category.index'), navigate:true);
-        }
+        try {
+            $category = CategoryModel::find($id);
+            if(!$category) {
+                return $this->redirect(route('admin.category.index'), navigate:true);
+            }
 
-        $category->delete();
-        $this->dispatch('success');
+            $category->delete();
+            $this->dispatch('success');
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function render()
     {
         if($this->search != '') {
-            $categories = CategoryModel::where('name', 'LIKE', "%$this->search%")->latest()->paginate($this->paginate);
+            $categories = CategoryModel::select('id', 'name')->where('name', 'LIKE', "%$this->search%")->latest()->paginate($this->paginate);
             $this->resetPage();
         }
         else {
-            $categories = CategoryModel::latest()->paginate($this->paginate);
+            $categories = CategoryModel::select('id', 'name')->latest()->paginate($this->paginate);
             $this->resetPage();
         }
 

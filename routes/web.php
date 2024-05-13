@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\Auth\Login;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Middleware\AdminMiddleware;
@@ -45,7 +44,6 @@ Route::prefix('auth')->group(function() {
     Route::get('/forget-password', fn () => view('pages.auth.forget-password'))->name('forget-password');
 });
 
-
-Route::get('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
+Route::get('/logout', [Login::class, 'logout'])->name('logout');
 
 

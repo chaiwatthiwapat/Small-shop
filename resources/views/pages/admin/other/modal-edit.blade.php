@@ -18,7 +18,7 @@
                                 <span class="text-danger mt-1">{{ $message }}</span>
                             @enderror
                         </div>
-
+ 
                         <div class="mb-3">
                             <label for="label">คำอธิบาย</label>
                             <textarea wire:model="label" rows="4" class="form-control"></textarea>

@@ -56,6 +56,33 @@
         </div>
     </nav>
 
+
+    <script>
+        $('#icon-menu').click(function() {
+            $('#icon-menu').addClass('d-none');
+            $('#icon-x').removeClass('d-none');
+            $('.navbar-menu').addClass('navbar-menu-show');
+        })
+
+        $('#icon-x').click(function() {
+            $('#icon-menu').removeClass('d-none');
+            $('#icon-x').addClass('d-none');
+            $('.navbar-menu').removeClass('navbar-menu-show');
+        })
+
+        window.onscroll = () => navbarSticky();
+
+        function navbarSticky() {
+            const point = 200;
+            if (document.body.scrollTop > point || document.documentElement.scrollTop > point) {
+                $('#header').addClass('sticky-top shadow-sm');
+            }
+            else {
+                $('#header').removeClass('sticky-top shadow-sm');
+            }
+        }
+    </script>
+
     <style>
         #header {
             height: 80px;
@@ -147,33 +174,6 @@
             }
         }
     </style>
-
-
-    <script>
-        $('#icon-menu').click(function() {
-            $('#icon-menu').addClass('d-none');
-            $('#icon-x').removeClass('d-none');
-            $('.navbar-menu').addClass('navbar-menu-show');
-        })
-
-        $('#icon-x').click(function() {
-            $('#icon-menu').removeClass('d-none');
-            $('#icon-x').addClass('d-none');
-            $('.navbar-menu').removeClass('navbar-menu-show');
-        })
-
-        window.onscroll = () => navbarSticky();
-
-        function navbarSticky() {
-            const point = 300;
-            if (document.body.scrollTop > point || document.documentElement.scrollTop > point) {
-                $('#header').addClass('sticky-top shadow-sm');
-            }
-            else {
-                $('#header').removeClass('sticky-top shadow-sm');
-            }
-        }
-    </script>
 </header>
 
 

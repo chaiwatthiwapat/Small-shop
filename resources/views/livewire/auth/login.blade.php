@@ -57,6 +57,16 @@
         </script>
     @endif
 
+    @if(session()->has('changePassword'))
+        <script>
+            Swal.fire({
+                title: '',
+                text: "{{ session('changePassword') }}",
+                icon: 'success'
+            });
+        </script>
+    @endif
+
     <style>
         form {
             width: 400px;

@@ -19,29 +19,30 @@ class Login extends Component
             'password' => 'กรอกรหัสผ่าน',
         ]);
 
-        $account = [
-            'email' => $this->email,
-            'password' => $this->password,
-        ];
+        try {
+            $account = [
+                'email' => $this->email,
+                'password' => $this->password,
+            ];
 
-        if(auth()->attempt($account)) {
-            if(Auth::user()->usertype == 'admin') {
-                return $this->redirect(route('admin.index'), navigate:true);
-            }
-            else if(Auth::user()->usertype == 'member') {
-                return $this->redirect(route('index'), navigate:true);
+            if(auth()->attempt($account)) {
+                if(Auth::user()->usertype == 'admin') {
+                    return $this->redirect(route('admin.index'), navigate:true);
+                }
+                else if(Auth::user()->usertype == 'member') {
+                    return $this->redirect(route('index'), navigate:true);
+                }
+                else {
+                    Auth::logout();
+                    return redirect()->route('login');
+                }
             }
             else {
-                Auth::logout();
-                return redirect()->route('login');
+                $this->addError('password', 'รหัสผ่านไม่ถูกต้อง');
             }
         }
-        else {
-            $this->validate([
-                'password' => 'size:1000',
-            ], [
-                'password' => 'รหัสผ่านไม่ถูกต้อง',
-            ]);
+        catch(\Exception $e) {
+            dd($e->getMessage());
         }
     }
 

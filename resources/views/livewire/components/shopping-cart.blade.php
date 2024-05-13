@@ -80,6 +80,11 @@
                         </select>
                     </div>
 
+                    <div class="mb-4">
+                        <label>ที่อยู่ผู้รับ</label>
+                        <textarea wire:model="address" rows="3" class="form-control"></textarea>
+                    </div>
+
                     <hr class="text-primary mt-3 mb-4">
 
                     <div>
@@ -98,7 +103,7 @@
                             <button class="button-primary px-3 py-2 w-100">ยืนยันคำสั่งซื้อ</button>
                         @else
                             <div>
-                                <a href="{{ route('login') }}">
+                                <a wire:navigate href="{{ route('login') }}">
                                     <button class="button-primary px-3 py-2 w-100">เข้าสู่ระบบก่อนซื้อ</button>
                                 </a>
                                 <div class="text-danger">*กรุณาเข้าสู่ระบบก่อน</div>

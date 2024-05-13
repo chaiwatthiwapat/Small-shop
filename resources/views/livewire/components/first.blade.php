@@ -10,7 +10,7 @@
 
                 <div class="mb-4">
                     @if(request()->is('admin/*'))
-                        <button disabled class="button-primary px-5 py-2 no-drop">ดูสินค้า</button>
+                        <button class="button-primary px-5 py-2 no-drop">ดูสินค้า</button>
                     @else
                         <a wire:navigate href="{{ route('product.index') }}">
                             <button class="button-primary px-5 py-2">ดูสินค้า</button>

@@ -5,6 +5,8 @@ namespace App\Livewire\Admin;
 use App\Models\First;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Route;
+
 
 class Other extends Component
 {
@@ -21,11 +23,16 @@ class Other extends Component
     }
 
     public function editFirst() {
-        $model = First::first();
+        try {
+            $model = First::first();
 
-        $this->title = $model->title;
-        $this->label = $model->label;
-        $this->oldImage = $model->image;
+            $this->title = $model->title;
+            $this->label = $model->label;
+            $this->oldImage = $model->image;
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function updateFirst() {
@@ -39,27 +46,32 @@ class Other extends Component
             'image' => 'ไฟล์ภาพเท่านั้น',
         ]);
 
-        $model = First::first();
+        try {
+            $model = First::first();
 
-        if($this->image != '') {
-            $code = $this->codename();
-            $ext = $this->ext($this->image);
-            $imageName = "first-$code.$ext";
-            $model->image = $imageName;
-        }
-
-        $model->title = $this->title;
-        $model->label = $this->label;
-
-        if($model->save()) {
             if($this->image != '') {
-                $this->image->storeAs('public/first', $imageName);
+                $code = $this->codename();
+                $ext = $this->ext($this->image);
+                $imageName = "first-$code.$ext";
+                $model->image = $imageName;
             }
-        }
 
-        $this->dispatch('refreshFirst');
-        $this->dispatch('success');
-        $this->dispatch('modal-edit-hide');
+            $model->title = $this->title;
+            $model->label = $this->label;
+
+            if($model->save()) {
+                if($this->image != '') {
+                    $this->image->storeAs('public/first', $imageName);
+                }
+            }
+
+            $this->dispatch('refreshFirst');
+            $this->dispatch('success');
+            $this->dispatch('modal-edit-hide');
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function closeModalFirst() {
@@ -71,7 +83,7 @@ class Other extends Component
 
     public function render()
     {
-        $first = First::first();
+        $first = First::select('title', 'label', 'image')->first();
         return view('livewire.admin.other', ['first' => $first]);
     }
 }

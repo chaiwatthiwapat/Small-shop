@@ -1,12 +1,49 @@
 <section id="forget-password" class="position-relative">
     <div class="content w-default d-flex justify-content-center align-items-center">
-        <form>
-            <h4 class="text-center">ลืมรหัส่ผ่าน</h4>
+        @if($status == 'ok')
+            <form wire:submit="changePassword">
+        @else
+            <form wire:submit="checkData">
+        @endif
+            <h4 class="text-center">ลืมรหัสผ่าน</h4>
 
             <div class="mb-3">
                 <label>อีเมล</label>
-                <input type="email" class="form-control">
+                <input wire:model="email" {{ $status == 'ok' ? 'disabled' : '' }} type="email" class="form-control">
+
+                @error('email')
+                    <span class="text-danger mt-1">{{ $message }}</span>
+                @enderror
             </div>
+
+            <div class="mb-3">
+                <label>Key สำหรับเปลี่ยนหรัสผ่าน</label>
+                <input wire:model="key" {{ $status == 'ok' ? 'disabled' : '' }} type="text" class="form-control">
+
+                @error('key')
+                    <span class="text-danger mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+
+            @if($status == 'ok')
+                <div class="mb-3">
+                    <label>รหัสผ่านใหม่</label>
+                    <input wire:model="password" type="password" class="form-control">
+
+                    @error('password')
+                        <span class="text-danger mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label>ยืนยันรหัสผ่านใหม่</label>
+                    <input wire:model="password_confirmation" type="password" class="form-control">
+
+                    @error('password')
+                        <span class="text-danger mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+            @endif
 
             <div class="mb-3">
                 <a wire:navigate href="{{ route('login') }}" class="text-primary">เข้าสู่ระบบ</a>

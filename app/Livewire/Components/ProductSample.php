@@ -7,12 +7,16 @@ use Livewire\Component;
 
 class ProductSample extends Component
 {
-    public $take = 4;
+    public $products, $take = 4;
+
+    public function setData() {
+        $this->products = Product::select('id', 'image', 'name', 'detail', 'price')->latest()->take($this->take)->get();
+    }
 
     public function render()
     {
-        $products = Product::latest()->take($this->take)->get();
+        $this->setData();
 
-        return view('livewire.components.product-sample', ['products' => $products]);
+        return view('livewire.components.product-sample', ['products' => $this->products]);
     }
 }

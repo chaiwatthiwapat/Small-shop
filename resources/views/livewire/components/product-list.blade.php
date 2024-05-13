@@ -18,7 +18,7 @@
                             </p>
                         </div>
                     </div>
-                </a>
+                </a> 
             @empty
                 <div class="d-flex justify-content-center mt-3">
                     <span class="d-block alert alert-primary px-3 py-2">ไม่พบข้อมูล</span>

@@ -22,6 +22,15 @@
             </div>
 
             <div class="mb-3">
+                <label>Key สำหรับเปลี่ยนรหัสผ่าน <span class="text-danger">แก้ไขไม่ได้</span></label>
+                <input wire:model="key" type="text" class="form-control input-password">
+
+                @error('key')
+                    <span class="mt-1 text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-3">
                 <label>รหัสผ่าน</label>
                 <input wire:model="password" type="password" class="form-control input-password">
 
@@ -58,6 +67,7 @@
 
     <div class="circle circle-1"></div>
     <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
 
     <style>
         form {
@@ -86,6 +96,13 @@
             right: 15%;
             width: 300px;
             height: 300px;
+        }
+
+        .circle-3 {
+            bottom: -100px;
+            right: 20%;
+            width: 200px;
+            height: 200px;
         }
 
         @media (max-width: 768px) {

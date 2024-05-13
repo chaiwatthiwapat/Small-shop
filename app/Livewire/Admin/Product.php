@@ -38,6 +38,11 @@ class Product extends Component
         $this->subimage = [];
         $this->oldImage = '';
         $this->oldImages = [];
+        $this->resetErrorBag();
+    }
+
+    public function modalCreateClose() {
+        $this->resetErrorBag();
     }
 
     public function createProduct() {
@@ -59,57 +64,67 @@ class Product extends Component
             'images.*.image' => 'ไฟล์ภาพเท่านั้น',
         ]);
 
-        $code = $this->codename();
-        $ext = $this->ext($this->image);
-        $imageName = "product-$code.$ext";
-
-        foreach ($this->images as $image) {
+        try {
             $code = $this->codename();
-            $ext = $this->ext($image);
-            $fileName = "product-sub-$code.$ext";
+            $ext = $this->ext($this->image);
+            $imageName = "product-$code.$ext";
 
-            $this->subimage[] = $fileName;
-        }
+            foreach ($this->images as $image) {
+                $code = $this->codename();
+                $ext = $this->ext($image);
+                $fileName = "product-sub-$code.$ext";
 
-        $product = new ProductModel();
-        $product->category_id = $this->category_id;
-        $product->name = $this->name;
-        $product->price = $this->price;
-        $product->detail = $this->detail;
-        $product->image = $imageName;
-        $product->subimage = $this->subimage;
-        $product->save();
-
-        if($product->save()) {
-            $this->image->storeAs('public/product', $imageName);
-
-            foreach($this->subimage as $index => $name) {
-                $this->images[$index]->storeAs('public/product-sub', $name);
+                $this->subimage[] = $fileName;
             }
-        }
 
-        $this->dispatch('success');
-        $this->dispatch('modal-create-hide');
-        $this->formClear();
-        $this->resetPage();
+            $product = new ProductModel();
+            $product->category_id = $this->category_id;
+            $product->name = $this->name;
+            $product->price = $this->price;
+            $product->detail = $this->detail;
+            $product->image = $imageName;
+            $product->subimage = $this->subimage;
+            $product->save();
+
+            if($product->save()) {
+                $this->image->storeAs('public/product', $imageName);
+
+                foreach($this->subimage as $index => $name) {
+                    $this->images[$index]->storeAs('public/product-sub', $name);
+                }
+            }
+
+            $this->dispatch('success');
+            $this->dispatch('modal-create-hide');
+            $this->formClear();
+            $this->resetPage();
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function editProduct($id) {
-        $this->id = $id;
+        try {
+            $this->id = $id;
 
-        $product = ProductModel::find($id);
-        if(!$product) {
-            return $this->redirect(route('admin.product.index'), navigate:true);
+            $product = ProductModel::find($id);
+            if(!$product) {
+                return $this->redirect(route('admin.product.index'), navigate:true);
+            }
+
+            $this->category_id = $product->category_id;
+            $this->name = $product->name;
+            $this->price =  $product->price;
+            $this->detail =  $product->detail;
+            $this->oldImage =  $product->image;
+
+            foreach($product->subimage as $value) {
+                $this->oldImages[] = $value;
+            }
         }
-
-        $this->category_id = $product->category_id;
-        $this->name = $product->name;
-        $this->price =  $product->price;
-        $this->detail =  $product->detail;
-        $this->oldImage =  $product->image;
-
-        foreach($product->subimage as $value) {
-            $this->oldImages[] = $value;
+        catch(\Exception $e) {
+            dd($e->getMessage());
         }
     }
 
@@ -131,76 +146,93 @@ class Product extends Component
             'images.*.image' => 'ไฟล์ภาพเท่านั้น',
         ]);
 
-        $product = ProductModel::find($this->id);
-        if(!$product) {
-            return $this->redirect(route('admin.product.index'), navigate:true);
-        }
-
-        if($this->image != '') {
-            $code = $this->codename();
-            $ext = $this->ext($this->image);
-            $imageName = "product-$code.$ext";
-            $product->image = $imageName;
-        }
-
-        if($this->images != []) {
-            foreach ($this->images as $image) {
-                $code = $this->codename();
-                $ext = $this->ext($image);
-                $fileName = "product-sub-$code.$ext";
-
-                $this->subimage[] = $fileName;
+        try {
+            $product = ProductModel::find($this->id);
+            if(!$product) {
+                return $this->redirect(route('admin.product.index'), navigate:true);
             }
 
-            $product->subimage = $this->subimage;
-        }
-
-        $product->category_id = $this->category_id;
-        $product->name = $this->name;
-        $product->price = $this->price;
-        $product->detail = $this->detail;
-
-        if($product->save()) {
             if($this->image != '') {
-                $this->image->storeAs('public/product', $imageName);
+                $code = $this->codename();
+                $ext = $this->ext($this->image);
+                $imageName = "product-$code.$ext";
+                $product->image = $imageName;
             }
 
             if($this->images != []) {
-                foreach($this->subimage as $index => $name) {
-                    $this->images[$index]->storeAs('public/product-sub', $name);
+                foreach ($this->images as $image) {
+                    $code = $this->codename();
+                    $ext = $this->ext($image);
+                    $fileName = "product-sub-$code.$ext";
+
+                    $this->subimage[] = $fileName;
+                }
+
+                $product->subimage = $this->subimage;
+            }
+
+            $product->category_id = $this->category_id;
+            $product->name = $this->name;
+            $product->price = $this->price;
+            $product->detail = $this->detail;
+
+            if($product->save()) {
+                if($this->image != '') {
+                    $this->image->storeAs('public/product', $imageName);
+                }
+
+                if($this->images != []) {
+                    foreach($this->subimage as $index => $name) {
+                        $this->images[$index]->storeAs('public/product-sub', $name);
+                    }
                 }
             }
-        }
 
-        $this->dispatch('success');
-        $this->dispatch('modal-edit-hide');
-        $this->formClear();
+            $this->dispatch('success');
+            $this->dispatch('modal-edit-hide');
+            $this->formClear();
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
 
     #[On('deleteProduct')]
     public function deleteProduct($id) {
-        $product = ProductModel::find($id);
-        if(!$product) {
-            return $this->redirect(route('admin.product.index'), navigate:true);
-        }
+        try {
+            $product = ProductModel::find($id);
+            if(!$product) {
+                return $this->redirect(route('admin.product.index'), navigate:true);
+            }
 
-        $product->delete();
-        $this->dispatch('success');
+            $product->delete();
+            $this->dispatch('success');
+        }
+        catch(\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     public function render()
     {
         if($this->search != '') {
-            $products = ProductModel::where('name', 'LIKE', "%$this->search%")->latest()->paginate($this->paginate);
+            $products = ProductModel::select('id', 'image', 'category_id', 'name', 'price')
+                ->where('name', 'LIKE', "%$this->search%")
+                ->latest()
+                ->paginate($this->paginate);
+
             $this->resetPage();
         }
         else {
-            $products = ProductModel::latest()->paginate($this->paginate);
+            $products = ProductModel::select('id', 'image', 'category_id', 'name', 'price')
+                ->latest()
+                ->paginate($this->paginate);
+
             $this->resetPage();
         }
 
-        $categories = Category::all();
+        $categories = Category::select('id', 'name')->get();
 
         return view('livewire.admin.product', [
             'products' => $products,
