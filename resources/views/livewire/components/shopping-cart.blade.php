@@ -70,33 +70,53 @@
                         <h6>฿{{ number_format($total, 0) }}</h6>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="mb-2">เลือกบริการจัดส่ง</label>
-                        <select wire:model.change="deliveryId" class="form-control">
-                            <option value="" hidden selected>-- เลือก --</option>
-                            
-                            @forelse ($deliveryService as $value)
-                                <option value="{{ $value->id }}">{{ $value->name }} - ฿{{ number_format($value->cost, 0) }}</option>
-                            @empty @endforelse
-                        </select>
+                    <div class="row">
+                        <div class="mb-4 col-lg-12 col-md-6 col-sm-6">
+                            <label class="mb-2">เลือกบริการจัดส่ง</label>
+                            <select wire:model.change="deliveryId" class="form-control">
+                                <option value="" hidden selected>-- เลือก --</option>
 
-                        @error('deliveryId')
-                            <span class="text-danger mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
+                                @forelse ($deliveryService as $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }} - ฿{{ number_format($value->cost, 0) }}</option>
+                                @empty @endforelse
+                            </select>
 
-                    <div class="mb-4">
-                        <label>ที่อยู่ผู้รับ</label>
-                        <textarea wire:model="address" rows="3" class="form-control"></textarea>
+                            @error('deliveryId')
+                                <span class="text-danger mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                        @error('deliveryId')
-                            <span class="text-danger mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
+                        <div class="mb-4 col-12">
+                            <label>ที่อยู่ผู้รับ</label>
+                            <textarea wire:model="address" rows="3" class="form-control"></textarea>
 
-                    <div class="mb-4">
-                        <label>ช่องทางชำระเงิน</label>
-                        <input wire:model="paymentMethod" disabled type="text" class="form-control">
+                            @error('deliveryId')
+                                <span class="text-danger mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4 col-lg-12 col-md-6 col-sm-6">
+                            <label>ชื่อผู้รับ</label>
+                            <input wire:model="name" type="text" class="form-control">
+
+                            @error('name')
+                                <span class="text-danger mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4 col-lg-12 col-md-6 col-sm-6">
+                            <label>เบอร์ผู้รับ</label>
+                            <input wire:model="phone" type="text" class="form-control">
+
+                            @error('phone')
+                                <span class="text-danger mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4 col-lg-12 col-md-6 col-sm-6">
+                            <label>ช่องทางชำระเงิน</label>
+                            <input wire:model="paymentMethod" disabled type="text" class="form-control">
+                        </div>
                     </div>
 
                     <hr class="text-primary my-3">

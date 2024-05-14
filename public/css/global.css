@@ -7,6 +7,7 @@
     --white: white;
     --dark: black;
     --danger: red;
+    --light-danger: rgb(255, 222, 222);
 
     --smoot-100: 100ms ease;
     --smoot-200: 200ms ease;
@@ -107,6 +108,19 @@ button {
 
 .button-primary:hover {
     background-color: var(--light-primary);
+    color: var(--primary);
+}
+
+.button-danger {
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--danger);
+    color: var(--white);
+    transition: var(--smoot-300);
+}
+
+.button-danger:hover {
+    background-color: var(--light-danger);
     color: var(--primary);
 }
 

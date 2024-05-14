@@ -25,6 +25,7 @@ Route::prefix('shopping-cart')->group(function() {
 
 Route::prefix('history')->group(function() {
     Route::get('/', fn () => view('pages.history.index'))->name('history');
+    Route::get('/order-detail/{order_id}', fn ($order_id) => view('pages.history.order-detail', compact('order_id')))->name('history.order-detail');
 });
 
 
@@ -43,11 +44,15 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function() {
     });
 });
 
-Route::prefix('auth')->group(function() {
-    Route::get('/login', fn () => view('pages.auth.login'))->name('login');
-    Route::get('/register', fn () => view('pages.auth.register'))->name('register');
-    Route::get('/forget-password', fn () => view('pages.auth.forget-password'))->name('forget-password');
+
+Route::middleware(['guest'])->group(function() {
+    Route::prefix('auth')->group(function() {
+        Route::get('/login', fn () => view('pages.auth.login'))->name('login');
+        Route::get('/register', fn () => view('pages.auth.register'))->name('register');
+        Route::get('/forget-password', fn () => view('pages.auth.forget-password'))->name('forget-password');
+    });
 });
+
 
 Route::get('/logout', [Login::class, 'logout'])->name('logout');
 

@@ -35,13 +35,13 @@
                         <strong class="text-primary">{{ number_format($product->price, 0) }}</strong>
                     </div>
 
-                    @if(Auth::check() && Auth::user()->usertype == 'admin')
+                    {{-- @if(Auth::check() && Auth::user()->usertype == 'admin')
                         <button disabled class="button-primary px-3 py-2 no-drop">เพิ่มลงตะกร้า</button>
-                    @else
+                    @else --}}
                         <button wire:click="addCart({{ $product->id }})" wire:loading.attr="disabled" class="button-primary px-3 py-2">
                             {{ $buttonAddCart }}
                         </button>
-                    @endif
+                    {{-- @endif --}}
                 </div>
 
                 @if($buttonAddCart != 'เพิ่มลงตะกร้า')

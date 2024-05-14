@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ShoppingCart extends Component
 {
-    public $total, $grandTotal, $deliveryId, $address, $shippingCost;
+    public $total, $grandTotal, $deliveryId, $name, $address, $phone, $shippingCost;
     public $items, $deliveryService;
     public $paymentMethod = 'ปลายทาง';
 
@@ -87,9 +87,13 @@ class ShoppingCart extends Component
         $this->validate([
             'deliveryId' => 'required|exists:delivery_services,id',
             'address' => 'required',
+            'phone' => 'required|size:10',
+            'name' => 'required|max:200',
         ], [
             'deliveryId' => 'เลือกบริการจัดส่ง',
             'address' => 'กรอกที่อยู่ให้ถูกต้อง',
+            'phone' => 'กรอกเบอร์ผู้รับ 10 ตัว',
+            'name' => 'กรอกชื่อผู้รับให้ถูกต้อง',
         ]);
 
         DB::beginTransaction();
@@ -102,6 +106,9 @@ class ShoppingCart extends Component
             $order->grand_total = $this->grandTotal;
             $order->payment_method = $this->paymentMethod;
             $order->shipping_cost = $this->shippingCost;
+            $order->name = $this->name;
+            $order->address = $this->address;
+            $order->phone = $this->phone;
             $order->save();
 
             $orderItems = OrderItem::where('order_id', NULL)
@@ -126,8 +133,8 @@ class ShoppingCart extends Component
     }
 
     public function orderCode() {
-        $random = Str::random(5).uniqid();
-        return strtoupper("OR-$random");
+        $uniqid = uniqid();
+        return strtoupper("OR-$uniqid");
     }
 
     public function render()

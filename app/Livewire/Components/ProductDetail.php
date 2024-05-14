@@ -42,6 +42,7 @@ class ProductDetail extends Component
                 OrderItem::create([
                     'usercode' => session('usercode'),
                     'product_id' => $productId,
+                    'unit_price' => $product->price,
                     'total_amount' => $product->price,
                 ]);
             }

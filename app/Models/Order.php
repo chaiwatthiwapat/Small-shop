@@ -13,11 +13,18 @@ class Order extends Model
         'order_code',
         'user_id',
         'delivery_id',
+        'name',
         'grand_total',
         'payment_method',
         'shipping_cost',
+        'address',
+        'phone',
         'percel_number',
         'status',
     ];
+
+    public function delivery() {
+        return $this->belongsTo(DeliveryService::class);
+    }
 }
 
