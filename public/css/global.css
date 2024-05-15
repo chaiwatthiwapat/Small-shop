@@ -6,7 +6,7 @@
     --secondary: #90adff;
     --white: white;
     --dark: black;
-    --danger: red;
+    --danger: rgb(255, 71, 71);
     --light-danger: rgb(255, 222, 222);
 
     --smoot-100: 100ms ease;

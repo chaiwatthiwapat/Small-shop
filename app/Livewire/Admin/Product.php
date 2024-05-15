@@ -3,10 +3,10 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
-use App\Models\Category;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
+use App\Models\Category;
 use App\Models\Product as ProductModel;
 
 class Product extends Component
@@ -202,7 +202,7 @@ class Product extends Component
     public function deleteProduct($id) {
         try {
             $product = ProductModel::find($id);
-            
+
             if($product) {
                 $product->delete();
                 $this->dispatch('success');
@@ -213,6 +213,7 @@ class Product extends Component
         }
     }
 
+    
     public function render()
     {
         if($this->search != '') {

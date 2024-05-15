@@ -41,6 +41,11 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function() {
             Route::get('/', fn () => view('pages.admin.product.index'))->name('admin.product.index');
             Route::get('/detail/{id}', fn ($id) => view('pages.admin.product.detail', compact('id')))->name('admin.product.detail');
         });
+
+        Route::prefix('order')->group(function() {
+            Route::get('/', fn () => view('pages.admin.order.index'))->name('admin.order.index');
+            Route::get('/manage-order/{order_id}', fn ($order_id) => view('pages.admin.order.manage-order', compact('order_id')))->name('admin.order.manage-order');
+        });
     });
 });
 

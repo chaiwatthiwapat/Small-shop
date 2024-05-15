@@ -10,7 +10,7 @@
             หน้าแรก
         </a>
 
-        <a wire:navigate href="#" class="d-block sidebar-menu mb-1">
+        <a wire:navigate href="{{ route('admin.order.index') }}" class="{{ request()->is('admin/order*') ? 'sidebar-active' : '' }} d-block sidebar-menu mb-1">
             คำสั่งซื้อ
         </a>
 

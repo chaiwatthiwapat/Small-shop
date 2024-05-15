@@ -28,7 +28,7 @@
                                 <td>
                                     <div class="px-2 py-0 w-fit m-0 space-nowrap
                                         alert {{ match($value->status) {
-                                            'new' => 'alert-success',
+                                            'new' => 'alert-warning',
                                             'shipping' => 'alert-primary',
                                             'success' => 'alert-success',
                                             'canceled' => 'alert-danger',
