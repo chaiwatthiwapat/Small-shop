@@ -13,7 +13,7 @@
                 @forelse ($deliveryServices as $value)
                     <tr>
                         <td class="py-3">{{ $value->name }}</td>
-                        <td class="py-3">{{ number_format($value->cost, 0) }}</td>
+                        <td class="py-3">฿{{ number_format($value->cost, 0) }}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-end gap-2">
                                 <div>

@@ -14,16 +14,20 @@
                             <h5 class="m-0 mb-1 h5-sm">{{ $value->name }}</h5>
                             <p class="m-0 mb-1 value-detail d-md-block d-none">{{ $value->detail }}</p>
                             <p class="m-0 mb-1 d-md-block d-none">
-                                <span class="text-danger me-1">{{ number_format($value->price, 0) }}</span>฿
+                                <span class="text-danger me-1">฿{{ number_format($value->price, 0) }}</span>
                             </p>
                         </div>
                     </div>
-                </a> 
+                </a>
             @empty
                 <div class="d-flex justify-content-center mt-3">
                     <span class="d-block alert alert-primary px-3 py-2">ไม่พบข้อมูล</span>
                 </div>
             @endforelse
+        </div>
+
+        <div class="mt-4">
+            {{ $products->links('vendor.livewire.bootstrap') }}
         </div>
     </div>
 

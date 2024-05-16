@@ -2,14 +2,20 @@
 
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 use App\Http\Middleware\AdminMiddleware;
 
 
-// Session::forget('usercode');
 if(!session()->has('usercode')) {
     session(['usercode' => uniqid().time()]);
 }
+
+Route::get('/storage_link', function() {
+    $storage_folder = storage_path('app/public');
+    $link = $_SERVER['DOCUMENT_ROOT'].'/storage';
+    symlink($storage_folder, $link);
+    echo 'ok';
+});
+
 
 Route::get('/', fn () => view('pages.index'))->name('index');
 
@@ -31,7 +37,7 @@ Route::prefix('history')->group(function() {
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function() {
     Route::prefix('admin')->group(function() {
-        Route::get('/', fn () => view('pages.admin.index'))->name('admin.index');
+        Route::get('/', fn () => view('pages.admin.order.index'))->name('admin.order.index');
         Route::get('/category', fn () => view('pages.admin.category.index'))->name('admin.category.index');
         Route::get('/delivery-service', fn () => view('pages.admin.delivery-service.index'))->name('admin.delivery-service.index');
         Route::get('/contact', fn () => view('pages.admin.contact.index'))->name('admin.contact.index');

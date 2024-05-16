@@ -27,7 +27,7 @@ class Login extends Component
 
             if(auth()->attempt($account)) {
                 if(Auth::user()->usertype == 'admin') {
-                    return $this->redirect(route('admin.index'), navigate:true);
+                    return $this->redirect(route('admin.order.index'), navigate:true);
                 }
                 else if(Auth::user()->usertype == 'member') {
                     return $this->redirect(route('index'), navigate:true);

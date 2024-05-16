@@ -30,9 +30,8 @@
                 <hr class="text-primary my-4">
 
                 <div class="d-flex flex-wrap justify-content-between align-items-center row-gap-3">
-                    <div class="d-flex gap-2">
-                        ฿
-                        <strong class="text-primary">{{ number_format($product->price, 0) }}</strong>
+                    <div class="d-flex">
+                        <p class="text-danger m-0">฿{{ number_format($product->price, 0) }}</p>
                     </div>
 
                     @if(request()->is('admin*'))

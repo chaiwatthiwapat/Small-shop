@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 
 class Order extends Component
 {
-    use WithPagination;
+    use WithPagination; 
 
     public $search, $status;
     public $new, $shipping, $success, $canceled;

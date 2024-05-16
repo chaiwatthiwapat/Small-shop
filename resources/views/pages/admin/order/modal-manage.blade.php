@@ -23,17 +23,40 @@
                             <label for="status" class="mb-1">สถานะ</label>
                             <div>
                                 @if($order->status != 'canceled')
-                                    <button wire:click="$set('status', 'new')" type="button" class="{{ $status == 'new' ? 'btn btn-success' : 'btn btn-secondary' }}" {{ $order->status != 'new' ? 'disabled' : '' }} {{ $order->status == 'success' ? 'hidden' : '' }}>
+                                    <button 
+                                        wire:click="$set('status', 'new')" 
+                                        type="button" 
+                                        class="{{ $status == 'new' ? 'btn btn-success' : 'btn btn-secondary' }}" 
+                                        {{ $order->status != 'new' ? 'disabled' : '' }} 
+                                        {{ $order->status == 'success' ? 'hidden' : '' }}>
                                         ใหม่
                                     </button>
-                                    <button wire:click="$set('status', 'shipping')" type="button" class="{{ $status == 'shipping' ? 'btn btn-primary' : 'btn btn-secondary' }}" {{ $order->status == 'success' ? 'disabled' : '' }} {{ $order->status == 'success' ? 'hidden' : '' }}>
+
+                                    <button 
+                                        wire:click="$set('status', 'shipping')" 
+                                        type="button" 
+                                        class="{{ $status == 'shipping' ? 'btn btn-primary' : 'btn btn-secondary' }}" 
+                                        {{ $order->status == 'success' ? 'disabled' : '' }} 
+                                        {{ $order->status == 'success' ? 'hidden' : '' }}>
                                         จัดส่งแล้ว
                                     </button>
-                                    <button wire:click="$set('status', 'success')" type="button" class="{{ $status == 'success' ? 'btn btn-success' : 'btn btn-secondary' }}" {{ $order->status == 'success' ? 'disabled' : '' }}>
+
+
+                                    <button 
+                                        wire:click="$set('status', 'success')" 
+                                        type="button" 
+                                        class="{{ $status == 'success' ? 'btn btn-success' : 'btn btn-secondary' }}" 
+                                        {{ $order->status == 'success' ? 'disabled' : '' }}>
                                         {{ $order->status == 'success' ? 'สำเร็จแล้ว' : 'สำเร็จ' }}
                                     </button>
                                 @endif
-                                <button wire:click="$set('status', 'canceled')" type="button" class="{{ $status == 'canceled' ? 'btn btn-danger' : 'btn btn-secondary' }}" {{ $order->status == 'canceled' ? 'disabled' : '' }} {{ $order->status == 'success' ? 'hidden' : '' }}>
+                                
+                                <button 
+                                    wire:click="$set('status', 'canceled')" 
+                                    type="button" 
+                                    class="{{ $status == 'canceled' ? 'btn btn-danger' : 'btn btn-secondary' }}" 
+                                    {{ $order->status == 'canceled' ? 'disabled' : '' }} 
+                                    {{ $order->status == 'success' ? 'hidden' : '' }}>
                                     {{ $order->status == 'canceled' ? 'ยกเลิกแล้ว' : 'ยกเลิก' }}
                                 </button>
                             </div>

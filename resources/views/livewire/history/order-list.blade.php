@@ -6,7 +6,7 @@
                 <h5>{{ $orders->count() }} รายการ</h5>
             </div>
 
-            <div class="text-primary">{{ Auth::check() ? Auth::user()->email : '' }}</div>
+            <div>{{ Auth::check() ? Auth::user()->email : '' }}</div>
 
             <hr class="text-secondary mt-3 mb-4">
 

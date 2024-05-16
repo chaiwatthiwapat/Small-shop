@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2024 at 06:07 AM
+-- Generation Time: May 16, 2024 at 04:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,8 +40,8 @@ CREATE TABLE `cache` (
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('5c785c036466adea360111aa28563bfd556b5fba', 'i:6;', 1715316384),
 ('5c785c036466adea360111aa28563bfd556b5fba:timer', 'i:1715316384;', 1715316384),
-('c1dfd96eea8cc2b62785275bca38ac261256e278', 'i:1;', 1715572525),
-('c1dfd96eea8cc2b62785275bca38ac261256e278:timer', 'i:1715572525;', 1715572525);
+('c1dfd96eea8cc2b62785275bca38ac261256e278', 'i:2;', 1715823080),
+('c1dfd96eea8cc2b62785275bca38ac261256e278:timer', 'i:1715823080;', 1715823080);
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (12, 'labtop', '2024-05-06 22:13:06', '2024-05-06 22:13:06'),
 (18, 'notebook', '2024-05-09 21:44:40', '2024-05-09 21:44:40'),
 (19, 'it', '2024-05-09 21:44:47', '2024-05-12 17:43:32'),
-(23, 'test55', '2024-05-12 19:47:58', '2024-05-12 19:48:02');
+(23, 'หนังสือ', '2024-05-12 19:47:58', '2024-05-15 18:27:41');
 
 -- --------------------------------------------------------
 
@@ -231,7 +231,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2024_05_13_014917_add_key_to_users', 11),
 (16, '2024_05_13_090821_create_orders_table', 12),
 (17, '2024_05_13_091809_add_order_id_to_order_items', 13),
-(18, '2024_05_13_091913_add_order_code_to_orders', 13);
+(18, '2024_05_13_091913_add_order_code_to_orders', 13),
+(19, '2024_05_14_043721_add_phone_to_orders', 14),
+(20, '2024_05_14_045700_add_name_to_orders', 15),
+(21, '2024_05_14_064314_add_unit_price_to_order_items', 16);
 
 -- --------------------------------------------------------
 
@@ -244,10 +247,13 @@ CREATE TABLE `orders` (
   `order_code` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `delivery_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
   `grand_total` decimal(8,2) NOT NULL,
   `payment_method` varchar(255) NOT NULL,
   `shipping_cost` decimal(8,2) NOT NULL,
+  `address` text NOT NULL,
   `percel_number` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'new',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -257,10 +263,13 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_code`, `user_id`, `delivery_id`, `grand_total`, `payment_method`, `shipping_cost`, `percel_number`, `status`, `created_at`, `updated_at`) VALUES
-(2, 'OR-9IRIL6641EF6EA6D4F', 7, 4, 5045.00, 'ปลายทาง', 45.00, NULL, 'new', '2024-05-13 03:46:06', '2024-05-13 03:46:06'),
-(3, 'OR-69IWT6641F1170A26C', 7, 4, 2045.00, 'ปลายทาง', 45.00, NULL, 'cancel', '2024-05-13 03:53:11', '2024-05-13 03:53:11'),
-(4, 'OR-BZXT56641F22E496DD', 8, 5, 520.00, 'ปลายทาง', 20.00, NULL, 'new', '2024-05-13 03:57:50', '2024-05-13 03:57:50');
+INSERT INTO `orders` (`id`, `order_code`, `user_id`, `delivery_id`, `name`, `grand_total`, `payment_method`, `shipping_cost`, `address`, `percel_number`, `phone`, `status`, `created_at`, `updated_at`) VALUES
+(10, 'OR-664308D8976C8', 9, 5, 'name', 4020.00, 'ปลายทาง', 20.00, 'address', '3456', '0955993948', 'success', '2024-05-13 23:46:48', '2024-05-14 22:33:11'),
+(11, 'OR-66430E3634664', 7, 5, 'name', 1020.00, 'ปลายทาง', 20.00, 'address', NULL, '0988847776', 'new', '2024-05-14 00:09:42', '2024-05-14 00:21:32'),
+(12, 'OR-6643125FB71E7', 7, 5, 'name', 23020.00, 'ปลายทาง', 20.00, 'address', '42345', '0888849983', 'shipping', '2024-05-14 00:27:27', '2024-05-15 19:31:58'),
+(13, 'OR-664312913CDC9', 7, 5, 'my name', 2520.00, 'ปลายทาง', 20.00, 'my addres', '2352345', '0884888893', 'success', '2024-05-14 00:28:17', '2024-05-14 22:29:43'),
+(14, 'OR-66442A6997DA5', 11, 5, 'name', 25020.00, 'ปลายทาง', 20.00, 'address Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, iure.', '234523', '0988858834', 'shipping', '2024-05-14 20:22:17', '2024-05-14 23:09:05'),
+(15, 'OR-66442AE531974', 12, 5, 'my name', 3020.00, 'ปลายทาง', 20.00, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, iure.', '', '0999984837', 'canceled', '2024-05-14 20:24:21', '2024-05-14 23:07:48');
 
 -- --------------------------------------------------------
 
@@ -275,6 +284,7 @@ CREATE TABLE `order_items` (
   `usercode` varchar(255) DEFAULT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1,
+  `unit_price` decimal(10,2) NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -284,13 +294,18 @@ CREATE TABLE `order_items` (
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `user_id`, `usercode`, `product_id`, `quantity`, `total_amount`, `created_at`, `updated_at`) VALUES
-(33, 2, 7, '6641cf6a8a79b1715588970', 44, 2, 4000.00, '2024-05-13 01:36:16', '2024-05-13 03:46:06'),
-(34, 2, 7, '6641cf6a8a79b1715588970', 43, 2, 1000.00, '2024-05-13 01:39:43', '2024-05-13 03:46:06'),
-(36, 3, 7, '6641cf6a8a79b1715588970', 44, 1, 2000.00, '2024-05-13 03:52:50', '2024-05-13 03:53:11'),
-(37, 4, 8, '6641cf6a8a79b1715588970', 43, 1, 500.00, '2024-05-13 03:57:40', '2024-05-13 03:57:50'),
-(38, NULL, NULL, '6641cf6a8a79b1715588970', 45, 1, 23000.00, '2024-05-13 04:04:26', '2024-05-13 04:04:26'),
-(39, NULL, NULL, '6641cf6a8a79b1715588970', 44, 1, 2000.00, '2024-05-13 04:04:31', '2024-05-13 04:04:31');
+INSERT INTO `order_items` (`id`, `order_id`, `user_id`, `usercode`, `product_id`, `quantity`, `unit_price`, `total_amount`, `created_at`, `updated_at`) VALUES
+(48, 10, 9, '6642e3abba9c81715659691', 44, 2, 2000.00, 4000.00, '2024-05-13 23:46:31', '2024-05-13 23:46:48'),
+(49, 11, 7, '6642e3abba9c81715659691', 43, 1, 500.00, 500.00, '2024-05-14 00:08:45', '2024-05-14 00:09:42'),
+(50, 11, 7, '6642e3abba9c81715659691', 42, 1, 500.00, 500.00, '2024-05-14 00:09:26', '2024-05-14 00:09:42'),
+(51, 12, 7, '6642e3abba9c81715659691', 45, 1, 23000.00, 23000.00, '2024-05-14 00:27:17', '2024-05-14 00:27:27'),
+(52, 13, 7, '6642e3abba9c81715659691', 43, 1, 500.00, 500.00, '2024-05-14 00:27:52', '2024-05-14 00:28:17'),
+(53, 13, 7, '6642e3abba9c81715659691', 44, 1, 2000.00, 2000.00, '2024-05-14 00:27:59', '2024-05-14 00:28:17'),
+(54, 14, 11, '664420feb32b01715740926', 44, 1, 2000.00, 2000.00, '2024-05-14 20:21:13', '2024-05-14 20:22:17'),
+(55, 14, 11, '664420feb32b01715740926', 45, 1, 23000.00, 23000.00, '2024-05-14 20:21:18', '2024-05-14 20:22:17'),
+(56, 15, 12, '664420feb32b01715740926', 44, 1, 2000.00, 2000.00, '2024-05-14 20:23:48', '2024-05-14 20:24:21'),
+(57, 15, 12, '664420feb32b01715740926', 42, 1, 500.00, 500.00, '2024-05-14 20:23:56', '2024-05-14 20:24:21'),
+(58, 15, 12, '664420feb32b01715740926', 43, 1, 500.00, 500.00, '2024-05-14 20:24:01', '2024-05-14 20:24:21');
 
 -- --------------------------------------------------------
 
@@ -327,10 +342,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `detail`, `price`, `image`, `subimage`, `created_at`, `updated_at`) VALUES
-(42, 12, 'product', 'detail', 500.00, 'product-b709c92ec60c544dd5e4c9a8eb025350.webp', '[\"product-sub-953aa947922d896f2cb4d28fe0d94e21.jpg\",\"product-sub-562b3ac81051c183119b49bdcc080547.jpg\",\"product-sub-b7683a721a83a9714afd897517a23be2.jpg\"]', '2024-05-07 22:16:55', '2024-05-07 22:16:55'),
-(43, 18, 'no1', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ducimus animi doloremque quaerat dignissimos! Quibusdam sapiente molestiae ipsum ipsam temporibus.\n', 500.00, 'product-ac04d53c324aaa26ae4f9d85270301ac.webp', '[\"product-sub-b99d2e1d5b5c50d27b7629bac68ae52e.webp\",\"product-sub-742719828ff335257686266c6b55f076.webp\",\"product-sub-1fe232a64056d4a37d7d5551b31fc1f4.webp\"]', '2024-05-09 21:45:31', '2024-05-09 21:45:31'),
-(44, 19, 'notebook', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ducimus animi doloremque quaerat dignissimos! Quibusdam sapiente molestiae ipsum ipsam temporibus.\n', 2000.00, 'product-d3b11d50589ba16c05b253a6ec279c43.jpg', '[\"product-sub-961ad6260e37495d396dc38fcdeb7233.jpg\",\"product-sub-576bdf81548df6707156a28916c21773.jpg\",\"product-sub-18d91ae54206726aa4663c36baf13a88.jpg\"]', '2024-05-09 21:45:59', '2024-05-09 21:45:59'),
-(45, 18, 'del', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ducimus animi doloremque quaerat dignissimos! Quibusdam sapiente molestiae ipsum ipsam temporibus.\n', 23000.00, 'product-ff103a36ed30e0ddd0d5a8283e7aaf01.jpg', '[\"product-sub-c389d212a0700c006808de5fc99b4ddd.webp\",\"product-sub-28b9d34807f2e4f256c42f01829c859e.jpg\",\"product-sub-d6526a08979a7000dce434c274a15162.jpg\"]', '2024-05-09 21:46:22', '2024-05-09 21:46:22');
+(42, 12, 'labtop', 'detail', 500.00, 'product-9cca40c2b92fd863ada0b7c9e7600018.webp', '[\"product-sub-30180694c1544ea56ade331efcc33497.webp\",\"product-sub-0d3764d62e16067502a46b6380f05dbe.jpg\",\"product-sub-fc39d1fe5a877d6b32430f1d5fcc936a.jpg\",\"product-sub-031e45163a97dac688b5b34f454be17a.jpg\"]', '2024-05-07 22:16:55', '2024-05-15 18:26:45'),
+(43, 18, 'notebook 1', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ducimus animi doloremque quaerat dignissimos! Quibusdam sapiente molestiae ipsum ipsam temporibus.\n', 500.00, 'product-0583dfc76d48a5c20d9ee06226fa90f2.jpg', '[\"product-sub-5364f175566f8783c4f022e0749e1a9d.webp\",\"product-sub-41ef526f30df38c650974772ff3b91a9.jpg\",\"product-sub-1edd463ca52a23efc427772a7aa5e0e6.jpg\",\"product-sub-ed71166af7895a6902b8e45ff607c43e.jpg\"]', '2024-05-09 21:45:31', '2024-05-15 19:29:27'),
+(44, 19, 'notebook 3', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ducimus animi doloremque quaerat dignissimos! Quibusdam sapiente molestiae ipsum ipsam temporibus.\n', 2000.00, 'product-c5306dd7f243c8dec06168ef17d4409a.webp', '[\"product-sub-ac5ff297f34f619b2defe46599e3106a.webp\",\"product-sub-58249ba1824280b164b365a60d5e7727.webp\",\"product-sub-d878bf633d448d7469afa3db2e349903.webp\",\"product-sub-0a0e5cf8628248a50c2197331c1b3380.jpg\"]', '2024-05-09 21:45:59', '2024-05-15 19:29:21'),
+(45, 18, 'notebook 2', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ducimus animi doloremque quaerat dignissimos! Quibusdam sapiente molestiae ipsum ipsam temporibus.\n', 23000.00, 'product-0b92f05afa9386670b65cf6587a89053.webp', '[\"product-sub-6ad3554ec715e8728acab3617d9c76ad.webp\",\"product-sub-cb1bbdef66f3c1a9cce5c47294301d7f.webp\",\"product-sub-65221919bce002995d863b66e9cd8370.webp\",\"product-sub-a991d45e90489b7274f86aa3d7cd3791.jpg\"]', '2024-05-09 21:46:22', '2024-05-15 18:27:24'),
+(48, 23, 'หนังสือ', 'เปลี่ยนความคิดของคุณให้เป็นจริงด้วยคอร์สการพัฒนาซอฟต์แวร์ของเรา ลงทะเบียนเลยวันนี้ แล้วมาเริ่มเขียนโค้ดกันเถอะครับ!', 200.00, 'product-65511c5fe9cf74d9f445093f943f0340.jpg', '[\"product-sub-64bdfa3a25acd9a2b995452c452d70c2.jpg\",\"product-sub-6403c1d30232f3ebdda95a6c267093c6.jpg\"]', '2024-05-15 18:30:35', '2024-05-15 18:30:35');
 
 -- --------------------------------------------------------
 
@@ -366,7 +382,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('lUSWn03ihwpuxhy1R92ZRQiK9dnyRqlg87o6v1cz', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36', 'YTo0OntzOjg6InVzZXJjb2RlIjtzOjIzOiI2NjQxY2Y2YThhNzliMTcxNTU4ODk3MCI7czo2OiJfdG9rZW4iO3M6NDA6Ik1XUjVxNXRab2JxS2cwS0JsUjl4R3g4cnNPZGpXVXJLTU5YWkF0UDQiO3M6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMyOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXV0aC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1715598279);
+('s8cpsv8SiFsAN3c8D49AHtkTHifbm9FLXMqsEFlr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36', 'YTo0OntzOjg6InVzZXJjb2RlIjtzOjIzOiI2NjQ1NWRlYjc2ZTI5MTcxNTgyMjA1OSI7czo2OiJfdG9rZW4iO3M6NDA6ImgyR05JZnpycU9tWXpucUVWVm9iVUtqSWRyc0lTdDVoQlNzT3lKOEYiO3M6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjI5OiJodHRwOi8vbG9jYWxob3N0OjgwMDAvcHJvZHVjdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1715826828);
 
 -- --------------------------------------------------------
 
@@ -394,9 +410,13 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `key`, `email_verified_at`, `password`, `usertype`, `remember_token`, `created_at`, `updated_at`) VALUES
 (4, 'la', 'la@exp.com', '$2y$12$8WEmJGnTn6xQ2WXHkpSy5.9qqnbvAhYH/wmOslDBRYm57SolQqVcG', NULL, '$2y$12$XONUCDP37L7y8SVAe.xjSeFU6DsEO9puoZB1lRSS4IHFSFPAVumP.', 'member', NULL, '2024-05-12 19:29:00', '2024-05-12 19:29:00'),
 (5, 'va', 'va@exp.com', '$2y$12$qNvQhyzERubDan.U85Zx/eOdzNcEeocjz2wHaYmfsRI85O.pLU9yq', NULL, '$2y$12$6v0K4cK7DbGypDSpRjEyvex/M0UlDvnNoReH9sl13v0ue09BZtxm.', 'member', NULL, '2024-05-12 19:41:54', '2024-05-12 19:42:32'),
-(6, 'admin', 'admin@exp.com', '$2y$12$FEnckO4D/1yf16JOpYB41.skxrh1q6et3EASUxsdt9wfSz0NHnxry', NULL, '$2y$12$/88u0eExdW3VQxHyYpjJueitKy7HrUtQNUD65yGGr0hzs8anng1Bu', 'admin', NULL, '2024-05-12 19:44:29', '2024-05-12 19:44:29'),
 (7, 'kan', 'kan@exp.com', '$2y$12$vcHYs3.mjh8OZOZ9I4iv0uZWlV/bq54p6JWGjdnjhvUqmXFx/C.Km', NULL, '$2y$12$5dE4QQDmp3lkKtQUAVbyMOwKXMcJ.xcRmk6ZRmYAmTY8jHtrOkfP2', 'member', NULL, '2024-05-13 01:40:29', '2024-05-13 01:41:50'),
-(8, 'na', 'na@exp.com', '$2y$12$C89O9XEVHCVZOQl6rvCN/.vNyc4hjKluWbJ5getQzIh.8Wi4Ydbde', NULL, '$2y$12$BLRwbFY96cSqAjBCwNnqw.IyjBmfTGdyT4kXyv01R3HZJzgWr1Uny', 'member', NULL, '2024-05-13 03:57:17', '2024-05-13 03:57:17');
+(8, 'na', 'na@exp.com', '$2y$12$C89O9XEVHCVZOQl6rvCN/.vNyc4hjKluWbJ5getQzIh.8Wi4Ydbde', NULL, '$2y$12$BLRwbFY96cSqAjBCwNnqw.IyjBmfTGdyT4kXyv01R3HZJzgWr1Uny', 'member', NULL, '2024-05-13 03:57:17', '2024-05-13 03:57:17'),
+(9, 'sa', 'sa@exp.com', '$2y$12$jnFUJnJq/wOt18uKBdVcqOkbvlfgrv4A7oY9QHZ.bXaSTAi1Nztoe', NULL, '$2y$12$6bI7HJS41hJh5HUrulzjD.fAhG8eox2VR3RLH38alGtHeaoFu7Ioy', 'member', NULL, '2024-05-13 21:13:54', '2024-05-13 21:13:54'),
+(10, 'nakhimov', 'nakhimov@exp.com', '$2y$12$TDPUEGi1tiVEc42aaRBfre1fo0iF5TTgbS0FwTgIPmzbBjNlgCPLi', NULL, '$2y$12$dpTrbike83q6EBH2AGWXguYawyKHyQoLozSmj3176ngtX7375hfGK', 'member', NULL, '2024-05-13 23:33:25', '2024-05-13 23:33:25'),
+(11, 'ma', 'ma@exp.com', '$2y$12$eZZldEbLIM6XIP08GdrEVegBaaUCyEmah6C6Awc8OjZuo44wwmBUK', NULL, '$2y$12$5LIG1tmU0ixsd3TxQalV3.z6VhhHVpJIyOufpusuDpfI0t4OmX9VW', 'member', NULL, '2024-05-14 20:21:07', '2024-05-14 20:21:07'),
+(12, 'aa', 'aa@exp.com', '$2y$12$GX.e1um4veYm8yhF4bcF2OLNyjjw/ojxk57p57C49RcBBXl5Djo5W', NULL, '$2y$12$NGAcBlr6oXp2MfEQvpxKb.nRc/i2WqaygwrcbZslBw9IrY0.2VliC', 'member', NULL, '2024-05-14 20:23:15', '2024-05-14 20:23:15'),
+(13, 'admin', 'admin@exp.com', '$2y$12$8F8g5f6QuxR.IcAJ8QZAAOv81duIE1RSVJuo5tRK5nZLqxLuLKlNu', NULL, '$2y$12$3h3AOL9MPw.2DTdDgUXpFOvPpfYqrjHWgAPgdv1MIuA3aE6jAJzam', 'admin', NULL, '2024-05-15 19:30:57', '2024-05-15 19:30:57');
 
 --
 -- Indexes for dumped tables
@@ -559,25 +579,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `product_samples`
@@ -589,7 +609,7 @@ ALTER TABLE `product_samples`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

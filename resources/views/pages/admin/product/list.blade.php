@@ -19,7 +19,7 @@
                         </td>
                         <td>{{ $value->category->name }}</td>
                         <td>{{ $value->name }}</td>
-                        <td class="text-end">{{ number_format($value->price, 0) }}</td>
+                        <td class="text-end">฿{{ number_format($value->price, 0) }}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-end gap-2">
                                 <div>

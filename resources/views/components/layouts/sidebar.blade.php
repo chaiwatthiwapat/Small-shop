@@ -1,16 +1,13 @@
 <section id="sidebar">
     <aside class="p-3">
-        <div>
-            <img width="100px" src="{{ url('storage/logo', 'shop-no-bg.png') }}" alt="">
+        <div class="d-flex flex-column">
+            <img width="80px" src="{{ url('storage/logo', 'shop-no-bg.png') }}" alt="">
+            <span>{{ Auth::check() ? Auth::user()->email : '' }}</span>
         </div>
 
         <hr class="text-primary">
 
-        <a wire:navigate href="{{ route('admin.index') }}" class="{{ Route::is('admin.index') ? 'sidebar-active' : '' }} d-block sidebar-menu mb-1">
-            หน้าแรก
-        </a>
-
-        <a wire:navigate href="{{ route('admin.order.index') }}" class="{{ request()->is('admin/order*') ? 'sidebar-active' : '' }} d-block sidebar-menu mb-1">
+        <a wire:navigate href="{{ route('admin.order.index') }}" class="{{ request()->is('admin') || request()->is('admin/order*') ? 'sidebar-active' : '' }} d-block sidebar-menu mb-1">
             คำสั่งซื้อ
         </a>
 
